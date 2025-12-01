@@ -11,6 +11,8 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
+    public DbSet<Region> Regions { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +32,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.userId);
+            entity.HasIndex(e => e.username).IsUnique();
             entity.Property(e => e.username).IsRequired();
             entity.Property(e => e.linkAvatar);
             entity.Property(e => e.otp);

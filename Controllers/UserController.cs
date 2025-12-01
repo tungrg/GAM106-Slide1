@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 [Route("api/[controller]")]
 [ApiController]
-
 public class UserController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -44,9 +43,35 @@ public class UserController : ControllerBase
 
     // POST: api/User
     [HttpPost]
-    public async Task<ActionResult<User>> PostUser(User user)
+    public async Task<ActionResult<User>> PostUser(CreateUserRequest request)
     {
-        // Add new user to the database
+        if (await _context.Users.AnyAsync(u => u.username == request.Username))
+        {
+            return BadRequest("Username already exists.");
+        }
+
+        var region = await _context.Regions.FindAsync(request.RegionId);
+        var role = await _context.Roles.FindAsync(request.RoleId);
+
+        if (region == null)
+        {
+            return BadRequest("Invalid Region ID");
+        }
+
+        if (role == null)
+        {
+            return BadRequest("Invalid Role ID");
+        }
+
+        var user = new User
+        {
+            username = request.Username,
+            region = region,
+            role = role,
+            linkAvatar = request.LinkAvatar,
+            otp = request.Otp
+        };
+
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
@@ -70,6 +95,20 @@ public class UserController : ControllerBase
         {
             return NotFound();
         }
+
+        return NoContent();
+    }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
 
         return NoContent();
     }

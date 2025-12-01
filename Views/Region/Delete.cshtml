@@ -1,0 +1,35 @@
+@model List<WebApplication1.Models.Region>
+
+@{
+    ViewData["Title"] = "Delete Region";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="mb-3">
+    <a asp-controller="Region" asp-action="Create" class="btn btn-success">Add New Region</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Region ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var region in Model)
+        {
+            <tr>
+                <td>@region.regionId</td>
+                <td>@region.Name</td>
+                <td>
+                    <form asp-action="DeleteConfirmed" asp-route-id="@region.regionId" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this region?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

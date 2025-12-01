@@ -9,6 +9,19 @@
     <p>Entity Framework Core with SQLite Example</p>
 </div>
 
+@if (ViewBag.JwtToken != null)
+{
+    <div class="container mt-3">
+        <div class="alert alert-info">
+            <h5>Test JWT Token:</h5>
+            <div class="text-break" style="font-family: monospace; font-size: 0.9em;">
+                @ViewBag.JwtToken
+            </div>
+            <small class="text-muted">Use this token in the Authorization header: <code>Bearer &lt;token&gt;</code></small>
+        </div>
+    </div>
+}
+
 <div class="container mt-4">
     <h2>Users from Database</h2>
     <table class="table table-striped">
@@ -16,7 +29,7 @@
             <tr>
                 <th>ID</th>
                 <th>Username</th>
-                <th>Email</th>
+                <th>avatar</th>
                 <th>OTP</th>
             </tr>
         </thead>

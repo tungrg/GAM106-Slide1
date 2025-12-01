@@ -1,0 +1,28 @@
+﻿@model List<WebApplication1.Models.Region>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Region Page";
+    
+}
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Region ID</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var region in Model)
+        {
+            <tr>
+                <td>@region.regionId</td>
+                <td>@region.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
